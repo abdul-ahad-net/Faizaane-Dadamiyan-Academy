@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAIZAANE DADA MIYAN ACADEMY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #228b22;       
+            --accent: #228b22;        
+            --header-color: #ffffff; 
+            --card-bg: rgba(0, 0, 0, 0.95);      
+            --subject-text: #228b22;  
+            --body-text: #ffffff;     
+            --ribbon-text: #fafd30;
+            --card-border: #ffffff;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-image: url('/bg3.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            /* Pushes cards lower down the page */
+            padding-top: 320px; 
+            padding-bottom: 100px; 
+            color: var(--body-text);
+            overflow-x: hidden;
+        }
+
+        /* --- PERMANENTLY TRANSPARENT HEADER --- */
+       header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 6%;
+    z-index: 2000;
+    box-sizing: border-box;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* 3D Glass Effect */
+    background: rgba(255, 255, 255, 0); /* Very slight tint */
+    backdrop-filter: blur(15px); /* Frosts the background */
+    -webkit-backdrop-filter: blur(15px);
+    
+    /* Depth Borders */
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Rim light */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    
+    /* Floating Shadow */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+        /* No background color on scroll, only size and shadow adjustments */
+        header.scrolled {
+            padding: 10px 6%;
+            background: transparent !important; 
+        }
+
+        .header-center {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .corner-logo {
+            width: 160px; 
+            height: auto;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 0 12px rgba(0,0,0,0.6));
+        }
+
+        header.scrolled .corner-logo {
+            width: 85px;
+        }
+
+       header h1 {
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff;
+    font-size: clamp(24px, 4vw, 45px);
+    text-transform: uppercase;
+    margin: 0 0 10px 0;
+    
+    /* The 3D "Extrusion" Effect */
+    text-shadow: 
+        0 1px 0 #1a631a, 
+        0 2px 0 #155015, 
+        0 3px 0 #104010, 
+        0 4px 0 #0b300b,
+        0 10px 20px rgba(0,0,0,0.4); /* Final soft shadow for lift */
+}
+
+        header.scrolled h1 {
+            font-size: 28px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,1);
+        }
+
+        #searchInput {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: 2px solid var(--primary);
+            background: rgba(255, 255, 255, 0.95);
+            font-size: 16px;
+            outline: none;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transition: 0.3s;
+        }
+
+        /* --- BORDERED 3D CARDS --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .subject-card {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 20px;
+            border: 4px solid var(--card-border); 
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 0;
+            transform: translateY(60px) rotateX(-10deg);
+        }
+
+        .subject-card.reveal {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+
+        .subject-card:hover {
+            transform: translateY(-20px) scale(1.03);
+            border-color: var(--accent);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .subject-title {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--subject-text);
+            font-size: 28px;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+        }
+
+        ul { list-style: none; padding: 0; }
+        li { 
+            margin: 16px 0; 
+            display: flex; 
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .pdf-link { 
+            text-decoration: none; 
+            color: var(--body-text); 
+            font-weight: 700; 
+            font-size: 18px;
+            transition: color 0.2s;
+        }
+
+        .pdf-link:hover { color: var(--primary); }
+        .pdf-icon { margin-right: 15px; color: var(--accent); font-size: 22px; }
+
+        .footer-ribbon {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: var(--primary);
+            color: var(--ribbon-text);
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .scrolling-text {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scroll-left 25s linear infinite;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 350px; }
+            header { padding: 20px 5%; }
+            .corner-logo { width: 80px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="mainHeader">
+        <img src="/2bg.png" alt="Left Logo" class="corner-logo">
+        <div class="header-center">
+            <h1>Faizaane Dada Miyan Academy</h1>
+            <input type="text" id="searchInput" onkeyup="filterSubjects()" placeholder="Search Lessons (e.g. Aqeeda, Word)...">
+        </div>
+        <img src="logo_right.jpg" alt="Right Logo" class="corner-logo">
+    </header>
+
+    <div class="container">
+        <div class="subject-grid">
+            
+            <div class="subject-card">
+                <h2 class="subject-title">Madani Qaida</h2>
+                <ul>
+                    <li data-keywords="madani qaida full basic quran">
+                        <span class="pdf-icon">📄</span><a href="/Madani Qaida Full.pdf" class="pdf-link">Madani Qaida Full</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="subject-card">
+                <h2 class="subject-title">Farz Uloom</h2>
+                <ul>
+                    <li data-keywords="allah aqeeda"><span class="pdf-icon">📄</span><a href="/A1.pdf" class="pdf-link">अल्लाह के बारे में अक़ीदा</a></li>
+                    <li data-keywords="ambiya nabi"><span class="pdf-icon">📄</span><a href="/A2.pdf" class="pdf-link">अंबिया अलैहिमुस्सलाम से मुतअल्लिक़ अक़ाईद</a></li>
+                    <li data-keywords="kitab quran"><span class="pdf-icon">📄</span><a href="/A3.pdf" class="pdf-link">आसमानी किताबों के मुतअल्लिक़ अक़ाईद</a></li>
+                    <li data-keywords="jinnat jin"><span class="pdf-icon">📄</span><a href="/A4.pdf" class="pdf-link">जिन्नात से मुतअल्लिक़ अक़ाईद</a></li>
+                    <li data-keywords="barzakh grave maut"><span class="pdf-icon">📄</span><a href="/A5.pdf" class="pdf-link">आलमे बरज़ख से मुतअल्लिक़ अक़ाईद</a></li>
+                    <li data-keywords="qayamat end world"><span class="pdf-icon">📄</span><a href="/A6.pdf" class="pdf-link">क़ियामत की निशानियाँ</a></li>
+                    <li data-keywords="hashr judgment day"><span class="pdf-icon">📄</span><a href="/A7.pdf" class="pdf-link">हश्र का बयान</a></li>
+                    <li data-keywords="jannat heaven"><span class="pdf-icon">📄</span><a href="/A8.pdf" class="pdf-link">जन्नत का बयान</a></li>
+                    <li data-keywords="dozakh hell"><span class="pdf-icon">📄</span><a href="/A9.pdf" class="pdf-link">दोज़ख का बयान</a></li>
+                    <li data-keywords="taqdeer luck"><span class="pdf-icon">📄</span><a href="/A10.pdf" class="pdf-link">तक़दीर का बयान</a></li>
+                    <li data-keywords="iman kufr"><span class="pdf-icon">📄</span><a href="/A11.pdf" class="pdf-link">ईमान और कुफ्र</a></li>
+                    <li data-keywords="malumat miscllaneous"><span class="pdf-icon">📄</span><a href="/A12.pdf" class="pdf-link">मुतफ़र्रिक मालूमात</a></li>
+                    <li data-keywords="taharat wuzu 1"><span class="pdf-icon">📄</span><a href="/TahaaratkaBayaan1.pdf" class="pdf-link">तहारत का बयान-1</a></li>
+                    <li data-keywords="taharat wuzu 2"><span class="pdf-icon">📄</span><a href="/TahaaratkaBayaan2.pdf" class="pdf-link">तहारत का बयान-2</a></li>
+                    <li data-keywords="taharat wuzu 3"><span class="pdf-icon">📄</span><a href="/TahaaratkaBayaan3.pdf" class="pdf-link">तहारत का बयान-3</a></li>
+                </ul>
+            </div>
+
+            <div class="subject-card"> 
+                <h2 class="subject-title">Computer</h2>
+                <ul>
+                    <li data-keywords="word typing"><span class="pdf-icon">📄</span><a href="pdfs/computer/MS WORD.pptx" class="pdf-link">MS Word</a></li>
+                    <li data-keywords="excel calculation"><span class="pdf-icon">📄</span><a href="pdfs/computer/MS EXCEL.pptx" class="pdf-link">MS Excel</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer-ribbon">
+        <div class="scrolling-text">
+            Official Portal: Faizaan E Dada Miyan Welfare Trust • Knowledge is Light • Study with Dedication
+        </div>
+    </div>
+
+    <script>
+        // Header scroll behavior
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // 3D Card Reveal logic
+        const reveal = () => {
+            document.querySelectorAll('.subject-card').forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                if (cardTop < window.innerHeight - 50) {
+                    card.classList.add('reveal');
+                }
+            });
+        };
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
+
+        // Search Filter
+        function filterSubjects() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.querySelectorAll('.subject-card');
+            cards.forEach(card => {
+                let items = card.getElementsByTagName('li');
+                let found = false;
+                for (let item of items) {
+                    let text = item.textContent.toLowerCase();
+                    let keywords = item.getAttribute('data-keywords').toLowerCase();
+                    if (text.includes(input) || keywords.includes(input)) {
+                        item.style.display = "flex";
+                        found = true;
+                    } else {
+                        item.style.display = "none";
+                    }
+                }
+                card.style.display = found ? "block" : "none";
+            });
+        }
+    </script>
+</body>
+</html>
