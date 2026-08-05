@@ -28,7 +28,7 @@
             background-position: center;
             background-attachment: fixed;
             margin: 0;
-            padding-top: 250px; /* Reduced for better initial view */
+            padding-top: 250px; 
             padding-bottom: 80px; 
             color: var(--body-text);
             overflow-x: hidden;
@@ -130,7 +130,6 @@
 
         .subject-grid {
             display: grid;
-            /* Fixed overflow issue for mobile screens */
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
             gap: 30px;
         }
@@ -192,7 +191,6 @@
             font-weight: 700; 
             font-size: 16px;
             transition: color 0.2s;
-            /* Make entirely tappable on mobile */
             padding: 5px 0; 
         }
 
@@ -223,47 +221,70 @@
             100% { transform: translateX(-100%); }
         }
 
-        /* --- MOBILE OPTIMIZATIONS --- */
+        /* --- MOBILE OPTIMIZATIONS (FIXED GRID LAYOUT) --- */
         @media (max-width: 768px) {
             body { 
-                padding-top: 180px; 
+                padding-top: 170px; 
             }
             
             header { 
                 padding: 15px 4%; 
-                justify-content: center;
+                display: grid;
+                grid-template-columns: 50px 1fr 50px;
+                grid-template-rows: auto auto;
+                gap: 15px 10px; /* Space between rows and columns */
+                align-items: center;
+                justify-items: center;
             }
 
-            /* Absolute positioning keeps logos out of the way of the search bar */
+            /* Unwraps the div so h1 and input can participate in the CSS grid */
+            .header-center {
+                display: contents; 
+            }
+
             .corner-logo { 
-                position: absolute;
-                top: 15px;
-                width: 50px; 
+                position: static; 
+                width: 100%;
+                max-width: 50px; 
             }
             
-            .corner-logo:first-of-type { left: 4%; }
-            .corner-logo:last-of-type { right: 4%; }
-
-            header.scrolled .corner-logo { 
-                width: 40px; 
-                top: 10px;
+            /* Put Left Logo in Column 1 */
+            .corner-logo:first-of-type { 
+                grid-column: 1 / 2;
+                grid-row: 1 / 2;
+            }
+            
+            /* Put Right Logo in Column 3 */
+            .corner-logo:last-of-type { 
+                grid-column: 3 / 4;
+                grid-row: 1 / 2;
             }
 
-            .header-center {
-                margin-top: 45px; /* Push below absolute logos */
-            }
-
+            /* Put Title in Column 2 (Middle) */
             header h1 {
-                margin: -40px 50px 10px 50px; /* Keep title aligned with logos */
+                grid-column: 2 / 3;
+                grid-row: 1 / 2;
+                margin: 0; 
+                font-size: clamp(14px, 4vw, 22px); 
+                text-align: center;
+            }
+
+            /* Make Search Bar span across all 3 columns on a new row */
+            #searchInput {
+                grid-column: 1 / 4;
+                grid-row: 2 / 3;
+                width: 100%;
+                padding: 10px 20px;
+                font-size: 15px;
             }
 
             header.scrolled h1 {
-                margin-top: -30px;
+                margin: 0;
+                font-size: clamp(13px, 3.5vw, 18px);
             }
 
-            #searchInput {
-                padding: 10px 20px;
-                font-size: 14px;
+            header.scrolled .corner-logo { 
+                max-width: 40px; 
             }
 
             .subject-card {
@@ -382,7 +403,7 @@
                     let keywords = item.getAttribute('data-keywords').toLowerCase();
                     
                     if (text.includes(input) || keywords.includes(input)) {
-                        item.style.display = "block"; // Changed to block for proper alignment
+                        item.style.display = "block"; 
                         found = true;
                     } else {
                         item.style.display = "none";
